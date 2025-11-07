@@ -1,0 +1,63 @@
+
+tailwind.config = {
+    theme: {
+        extend: {
+            colors: {
+                'primary': '#4f46e5',
+                'secondary': '#10b981',
+            }
+        }
+    }
+}
+
+
+
+const obfuscatedCodeArray = [
+    109, 121, 121, 117, 120, 63, 52, 52, 109, 116, 114, 106, 103, 126, 119, 106, 121, 106, 102, 114, 50, 105, 116, 121, 51, 103, 113, 116, 108, 120, 117, 116, 121, 51, 104, 116, 114
+];
+
+const SHIFT_KEY = 5;
+
+function deobfuscateUrl(codeArray) {
+    try {
+        const decodedChars = codeArray.map(code => 
+            String.fromCharCode(code - SHIFT_KEY)
+        );
+        return decodedChars.join('');
+    } catch (error) {
+        console.error("ERROR!", error);
+        return "";
+    }
+}
+
+const decodedUrl = deobfuscateUrl(obfuscatedCodeArray);
+
+const SPLASH_DURATION = 3000; 
+
+
+window.onload = function() {
+    const splashScreen = document.getElementById('splash-screen');
+    const mainContent = document.getElementById('main-content');
+    const iframe = document.getElementById('encrypted-iframe');
+
+    setTimeout(() => {
+        splashScreen.style.opacity = '0';
+
+        setTimeout(() => {
+            splashScreen.classList.add('hidden');
+            mainContent.classList.remove('hidden');
+            iframe.src = decodedUrl;
+            iframe.style.visibility = 'visible';
+        }, 500); 
+    }, SPLASH_DURATION);
+};
+
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+});
+
+document.addEventListener('touchmove', function(e) {
+    if (e.touches.length > 1) { 
+        e.preventDefault();
+    }
+}, { passive: false });
