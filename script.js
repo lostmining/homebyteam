@@ -32,7 +32,7 @@ function deobfuscateUrl(codeArray) {
 
 const decodedUrl = deobfuscateUrl(obfuscatedCodeArray);
 
-const SPLASH_DURATION = 3000; 
+const SPLASH_DURATION = 1000; 
 
 
 window.onload = function() {
